@@ -444,7 +444,7 @@ class AbstractSessionTest extends TestCase
         $session = $this->createMockSession();
         $response = $this->createMock(ResponseInterface::class);
 
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertSame([], $session->getWrittenSessions());
         $this->assertSame([], $session->getTouchedSessions());
@@ -479,7 +479,7 @@ class AbstractSessionTest extends TestCase
         $session->all();
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertContains(SessionStart::class, $events);
         $this->assertContains(SessionEnd::class, $events);
@@ -525,7 +525,7 @@ class AbstractSessionTest extends TestCase
         $sessionId = $session->getId();
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertContains(SessionCreate::class, $events);
         $this->assertContains(SessionUpdate::class, $events);
@@ -576,7 +576,7 @@ class AbstractSessionTest extends TestCase
         $session->setId($newId);
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertContains(SessionCreate::class, $events);
         $this->assertContains(SessionUpdate::class, $events);
@@ -596,7 +596,7 @@ class AbstractSessionTest extends TestCase
         $context->data = ['foo' => 'bar', '__T' => time()];
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertSame([], $session->getWrittenSessions());
         $this->assertSame([], $session->getTouchedSessions());
@@ -614,7 +614,7 @@ class AbstractSessionTest extends TestCase
         $context->data = ['foo' => 'bar'];
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertArrayHasKey('existing_session_touch', $session->getTouchedSessions());
         $this->assertSame([], $session->getWrittenSessions());
@@ -633,7 +633,7 @@ class AbstractSessionTest extends TestCase
         $context->data = ['foo' => 'bar', '__T' => time() - 120];
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $written = $session->getWrittenSessions();
         $this->assertArrayHasKey('existing_session_lazy_expired', $written);
@@ -667,7 +667,7 @@ class AbstractSessionTest extends TestCase
         $context->data = ['foo' => 'bar'];
 
         $response = $this->createMock(ResponseInterface::class);
-        $session->onResponseHeadersSending(new HeadersSending($response));
+        $session->onResponseHeadersSending(new HeadersSending($this->createStub(\Switon\Http\ServerInterface::class), $response));
 
         $this->assertArrayHasKey('touch_failed_session', $session->getTouchedSessions());
         $written = $session->getWrittenSessions();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Switon\Session\Event;
 
 use JsonSerializable;
+use Switon\Core\SenderAwareInterface;
 use Switon\Eventing\Attribute\EventLevel;
 use Switon\Eventing\Severity;
 use Switon\Session\SessionInterface;
@@ -18,16 +19,20 @@ use Switon\Session\SessionInterface;
  * @see \Switon\Session\Exception
  */
 #[EventLevel(Severity::ERROR)]
-class SessionUnserializeFailed implements JsonSerializable
+class SessionUnserializeFailed implements JsonSerializable, SenderAwareInterface
 {
     /**
-     * @param SessionInterface $session Session component.
      * @param string $sessionId Failed session ID.
      */
     public function __construct(
-        public SessionInterface $session,
+        public SessionInterface $sender,
         public string           $sessionId,
     ) {
+    }
+
+    public function getSender(): SessionInterface
+    {
+        return $this->sender;
     }
 
     /**

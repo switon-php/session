@@ -14,7 +14,7 @@ use Switon\Session\SessionInterface;
 /**
  * Event emitted when a started session reaches response end handling.
  *
- * Log category: session lifecycle.
+ * Log category: `switon.session.end`
  *
  * @see \Switon\Session\AbstractSession
  * @see \Switon\Session\Event\SessionStart

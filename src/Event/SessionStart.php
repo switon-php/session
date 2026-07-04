@@ -14,7 +14,7 @@ use Switon\Session\SessionInterface;
 /**
  * Event emitted when a session starts or resumes.
  *
- * Log category: session lifecycle.
+ * Log category: `switon.session.start`
  *
  * @see \Switon\Session\AbstractSession
  * @see \Switon\Session\Event\SessionEnd

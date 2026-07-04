@@ -14,7 +14,7 @@ use Switon\Session\SessionInterface;
 /**
  * Event emitted when session data is persisted.
  *
- * Log category: session lifecycle.
+ * Log category: `switon.session.update`
  *
  * @see \Switon\Session\AbstractSession
  * @see \Switon\Session\Event\SessionEnd

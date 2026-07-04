@@ -14,7 +14,7 @@ use Switon\Session\SessionInterface;
 /**
  * Event emitted when a session is destroyed.
  *
- * Log category: session lifecycle.
+ * Log category: `switon.session.destroy`
  *
  * @see \Switon\Session\AbstractSession
  * @see \Switon\Session\Event\SessionCreate

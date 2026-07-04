@@ -13,7 +13,7 @@ use Switon\Session\SessionInterface;
 /**
  * Event emitted when stored session payload cannot be unserialized.
  *
- * Log category: session lifecycle.
+ * Log category: `switon.session.unserialize.failed`
  *
  * @see \Switon\Session\AbstractSession
  * @see \Switon\Session\Exception

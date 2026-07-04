@@ -4,30 +4,58 @@ declare(strict_types=1);
 
 namespace Switon\Session\Tests;
 
+use PHPUnit\Framework\TestCase as BaseTestCase;
+use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
+use Switon\Core\App;
 use Switon\Core\Attribute\Autowired;
 use Switon\Core\ContextManagerInterface;
+use Switon\Core\InjectorInterface;
+use Switon\Di\Container as DiContainer;
+use Switon\Di\ServiceProvider as DiServiceProvider;
+use Switon\Eventing\EventDispatcher as RealEventDispatcher;
+use Switon\Eventing\EventDispatcherInterface;
 use Switon\Http\CookiesInterface;
-use Switon\Testing\TestCase as BaseTestCase;
+use Switon\Testing\EventDispatcher as TestEventDispatcher;
+use Switon\Testing\InMemoryContextManager;
 
-/**
- * Base test case for Session tests.
- *
- * Provides common functionality for all Session tests using Container (as in real applications).
- * All dependencies are injected through Container's autowiring.
- */
 abstract class TestCase extends BaseTestCase
 {
+    protected DiContainer $container;
+    protected InjectorInterface $injector;
+
     #[Autowired] protected ContextManagerInterface $contextManager;
     #[Autowired] protected CookiesInterface $cookies;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->container = new DiContainer();
+        $diProvider = new DiServiceProvider();
+        $diProvider->register($this->container);
+        $diProvider->boot();
+
+        App::setContainer($this->container);
+        $this->container->set(ContextManagerInterface::class, InMemoryContextManager::class);
+
+        $realDispatcher = $this->container->make(RealEventDispatcher::class);
+        $eventDispatcher = new TestEventDispatcher($realDispatcher);
+        $eventDispatcher->setDispatchEvents(false);
+        $this->container->set(EventDispatcherInterface::class, $eventDispatcher);
+        $this->container->set(PsrEventDispatcherInterface::class, $eventDispatcher);
+
+        $this->injector = $this->container->get(InjectorInterface::class);
+        $this->setUpContainer();
+        $this->injector->inject($this);
+    }
+
     protected function setUpContainer(): void
     {
-        parent::setUpContainer();
-
-        // ContextManager is already registered in Switon\Testing\Container
-        // Create and register cookies mock
         $this->container->set(CookiesInterface::class, $this->createMock(CookiesInterface::class));
+    }
 
-        // Property autowiring is automatically performed by parent::setUp()
+    protected function make(string $name, array $parameters = []): mixed
+    {
+        return $this->container->make($name, $parameters);
     }
 }

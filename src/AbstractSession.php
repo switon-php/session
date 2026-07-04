@@ -45,7 +45,6 @@ abstract class AbstractSession implements SessionInterface, ContextAware, ArrayA
     #[Autowired] protected ContextManagerInterface $contextManager;
     #[Autowired] protected EventDispatcherInterface $eventDispatcher;
     #[Autowired] protected RandomInterface $random;
-
     #[Autowired] protected CookiesInterface $cookies;
 
     #[Autowired] protected int $ttl = 3600;

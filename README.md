@@ -41,7 +41,7 @@ class AuthController
 }
 ```
 
-Docs: https://docs.switon.dev/latest/session
+Docs: https://github.com/switon-php/session/blob/main/docs/README.md
 
 ## License
 

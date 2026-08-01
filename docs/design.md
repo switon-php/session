@@ -6,7 +6,7 @@
 
 - [Session Package](README.md) — usage, configuration, and events
 - [FAQ](faq.md#session-faq) — short answers for setup and common issues
-- [Redis Package](../../redis/docs/README.md) — storage backend used by the default session implementation
+- [Redis Package](https://github.com/switon-php/redis/blob/main/docs/README.md) — storage backend used by the default session implementation
 
 ---
 

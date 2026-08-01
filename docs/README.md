@@ -109,4 +109,4 @@ bash bin/console config:options 'Switon\Session\SessionInterface'
 
 - **Common questions:** [FAQ](faq.md#session-faq)
 - **Design trade-offs:** [Design Rationale](design.md#design-rationale)
-- **Redis details:** [Redis Package](../../redis/docs/README.md)
+- **Redis details:** [Redis Package](https://github.com/switon-php/redis/blob/main/docs/README.md)
